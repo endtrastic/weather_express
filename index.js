@@ -48,7 +48,11 @@ app.all('/', function (req, res) {
     }
     if(req.method == 'POST') {
       city = req.body.cityname
-    }  
+    }
+    if (!city || city.trim() === '') {
+      res.render('index', { error: 'Please enter a valid city name' });
+      return;
+    }
     let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}`
     getWeatherDataPromise(url)
     .then(data => {
